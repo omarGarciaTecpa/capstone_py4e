@@ -21,7 +21,8 @@ class Usuario:
         pass
 
     def __str__(self):
-        msg = "-----------------------------------------------\n"
+        msg = ""
+        msg += "**********************************************\n"        
         msg += f"id: {self.id}\n"
         msg += f"edad: {self.edad}\n"
         msg += f"P6_2_1: {self.P6_2_1}\n"
@@ -30,7 +31,7 @@ class Usuario:
         msg += f"P6_3: {self.P6_3}\n"
         msg += f"P7_1: {self.P7_1}\n"
         msg += f"P7_2: {self.P7_2}\n"
-        msg += "-----------------------------------------------\n"
+        msg = "-----------------------------------------------\n"
         return msg
         pass
 
