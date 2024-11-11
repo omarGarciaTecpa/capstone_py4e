@@ -9,7 +9,8 @@ class Usuario:
     connection: sqlite3.Connection = None
     src_file: str = None
     
-    def __init__(self, edad: int ,P6_2_1 : int,P6_2_2: int, P6_2_3: int, P6_3: int, P7_1: int,P7_2: int):
+    def __init__(self, edad: int ,P6_2_1 : int,P6_2_2: int, P6_2_3: int, P6_3: int, P7_1: int,P7_2: int, id: int = -1):
+        self.id = id
         self.edad   = edad
         self.P6_2_1 = P6_2_1
         self.P6_2_2 = P6_2_2
@@ -17,6 +18,20 @@ class Usuario:
         self.P6_3   = P6_3
         self.P7_1   = P7_1
         self.P7_2   = P7_2
+        pass
+
+    def __str__(self):
+        msg = "-----------------------------------------------\n"
+        msg += f"id: {self.id}\n"
+        msg += f"edad: {self.edad}\n"
+        msg += f"P6_2_1: {self.P6_2_1}\n"
+        msg += f"P6_2_2: {self.P6_2_2}\n"
+        msg += f"P6_2_3: {self.P6_2_3}\n"
+        msg += f"P6_3: {self.P6_3}\n"
+        msg += f"P7_1: {self.P7_1}\n"
+        msg += f"P7_2: {self.P7_2}\n"
+        msg += "-----------------------------------------------\n"
+        return msg
         pass
 
     @classmethod
@@ -98,7 +113,24 @@ class Usuario:
     def list(cls):
         cursor = cls.connection.cursor()
         cursor.execute("SELECT * from Usuarios")
+        usuario_list = []
+        for row in cursor.fetchall():
+            temp = Usuario(
+                id=row['id'],
+                edad=row['edad'],
+                P6_2_1=row['P6_2_1'],
+                P6_2_2=row['P6_2_2'],
+                P6_2_3=row['P6_2_3'],
+                P6_3 = row['P6_3'],
+                P7_1= row['P7_1'],
+                P7_2= row['P7_2'] )
+            
+
+            usuario_list.append(temp)
+
+
         cursor.close()
+        return usuario_list
         pass
 
     def create(self, auto_commit: bool = False):
@@ -109,6 +141,7 @@ class Usuario:
         cursor.execute(command, (self.edad, self.P6_2_1, self.P6_2_2, self.P6_2_3, self.P6_3, self.P7_1, self.P7_2))
   
         id = cursor.lastrowid
+        self.id = id
         cursor.close()
         self.commit(auto_commit)
         return id 

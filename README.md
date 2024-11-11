@@ -28,8 +28,10 @@ These are additional resources I read while researching for this project.
     - https://peps.python.org/pep-0257/
     - https://www.geeksforgeeks.org/python-docstrings/
     - https://realpython.com/documenting-python-code/
--Sql3 insert
+- Sqlite3 insert
     - https://stackoverflow.com/questions/6242756/how-to-retrieve-inserted-id-after-inserting-row-in-sqlite-using-python
+- Sqlite3 rows by name
+    -https://docs.python.org/3/library/sqlite3.html#sqlite3-howto-row-factory
 
 [^1]: [Encuesta Nacional sobre Disponibilidad y Uso de Tecnologías de la Información en los Hogares (ENDUTIH) 2022](https://www.inegi.org.mx/programas/dutih/2022/)
 

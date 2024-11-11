@@ -33,6 +33,7 @@ class DataImporter:
 
         Usuario.start(self.connection, src_file)
         Usuario.import_from_csv()
+        for item in Usuario.list(): print(item)
         src_file.close()
         pass
 
@@ -46,6 +47,7 @@ class DataImporter:
 # MAIN APP LOOP -------------------------------------------------------
 try:
     conn = sqlite3.connect(DATA_BASES['content'])
+    conn.row_factory = sqlite3.Row
 except:
     print("Could not connect to database. Quitting app")
     quit()
