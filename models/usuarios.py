@@ -31,7 +31,7 @@ class Usuario:
         msg += f"P6_3: {self.P6_3}\n"
         msg += f"P7_1: {self.P7_1}\n"
         msg += f"P7_2: {self.P7_2}\n"
-        msg += "----------------------------------------------\n"
+        msg += "\n\n"
         return msg
         pass
 
@@ -79,10 +79,8 @@ class Usuario:
             quit()
 
         reader = csv.DictReader(cls.src_file)
-        counter = 0
 
         for index, row in enumerate(reader):
-            counter += 1
             edad = row['EDAD']
             P6_2_1 = cls.convert_int(row,'P6_2_1') 
             P6_2_2 = cls.convert_int(row,'P6_2_2')  
@@ -93,8 +91,8 @@ class Usuario:
             temp = Usuario(edad, P6_2_1, P6_2_2, P6_2_3, P6_3, P7_1, P7_2)
             temp.create()  
 
-            if counter % INSERT_LOOP_MAX == 0:
-                print("Commited:", index)
+            if (index + 1) % INSERT_LOOP_MAX == 0:
+                print("Commited:", index + 1)
                 cls.connection.commit()
 
         cls.connection.commit() # final commit
