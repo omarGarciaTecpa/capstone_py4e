@@ -17,8 +17,7 @@ INEGI publishes its data in a clean and organized manner where its posible to fi
 These are additional resources I read while researching for this project. 
 - OOP in python
     - https://realpython.com/python3-object-oriented-programming/
--Python modules
-    - 
+    - https://grzegorz-makowski.medium.com/understanding-self-and-cls-in-python-b674f5e5951d
 - os.path join()
     - https://www.geeksforgeeks.org/python-os-path-join-method/
 - enumerate
@@ -29,6 +28,8 @@ These are additional resources I read while researching for this project.
     - https://peps.python.org/pep-0257/
     - https://www.geeksforgeeks.org/python-docstrings/
     - https://realpython.com/documenting-python-code/
+-Sql3 insert
+    - https://stackoverflow.com/questions/6242756/how-to-retrieve-inserted-id-after-inserting-row-in-sqlite-using-python
 
 [^1]: [Encuesta Nacional sobre Disponibilidad y Uso de Tecnologías de la Información en los Hogares (ENDUTIH) 2022](https://www.inegi.org.mx/programas/dutih/2022/)
 
