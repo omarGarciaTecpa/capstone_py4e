@@ -10,9 +10,6 @@ The data used for this analysis was retrieved from the "National Survey on Avail
 INEGI publishes its data in a clean and organized manner where its posible to find the raw data, metadata, data dictionaries and even an E-R model of the data. 
 
 
-
-
-
 ## Docs and articles used for this project
 These are additional resources I read while researching for this project. 
 - OOP in python

@@ -6,12 +6,27 @@ class MetaUsuario:
 
 
 class Usuario:
+    """ Representation of Usuarios from the survey.
+
+    Attributes:
+        connection: Connection to the sqlite database [class attribute]
+        src_file: file handle for the source file [class attribute]
+        id: id after insertion
+        edad: age of the surveyed person
+        P6_2_1: question: 
+        P6_2_2:
+        P6_2_3:
+        P6_3:
+        P7_1:
+        P7_2:
+    """
     connection: sqlite3.Connection = None
     src_file: str = None
     
-    def __init__(self, edad: int ,P6_2_1 : int,P6_2_2: int, P6_2_3: int, P6_3: int, P7_1: int,P7_2: int, id: int = -1):
+    def __init__(self, edad: int ,P6_1,P6_2_1 : int,P6_2_2: int, P6_2_3: int, P6_3: int, P7_1: int,P7_2: int, id: int = -1):
         self.id = id
         self.edad   = edad
+        self.P6_1 = P6_1
         self.P6_2_1 = P6_2_1
         self.P6_2_2 = P6_2_2
         self.P6_2_3 = P6_2_3
@@ -25,6 +40,7 @@ class Usuario:
         msg += "**********************************************\n"        
         msg += f"id: {self.id}\n"
         msg += f"edad: {self.edad}\n"
+        msg += f"P6_1: {self.P6_1}\n"
         msg += f"P6_2_1: {self.P6_2_1}\n"
         msg += f"P6_2_2: {self.P6_2_2}\n"
         msg += f"P6_2_3: {self.P6_2_3}\n"
@@ -60,6 +76,7 @@ class Usuario:
         CREATE TABLE Usuarios (
             id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
             edad INTEGER,
+            P6_1 INTEGER,
             P6_2_1 INTEGER,
             P6_2_2 INTEGER,	
             P6_2_3 INTEGER,
@@ -82,13 +99,14 @@ class Usuario:
 
         for index, row in enumerate(reader):
             edad = row['EDAD']
+            P6_1 = cls.convert_int(row,'P6_1') 
             P6_2_1 = cls.convert_int(row,'P6_2_1') 
             P6_2_2 = cls.convert_int(row,'P6_2_2')  
             P6_2_3 = cls.convert_int(row,'P6_2_3')   
             P6_3 = cls.convert_int(row,'P6_3')            
             P7_1 = cls.convert_int(row,'P7_1')  
             P7_2 = cls.convert_int(row,'P7_2')  
-            temp = Usuario(edad, P6_2_1, P6_2_2, P6_2_3, P6_3, P7_1, P7_2)
+            temp = Usuario(edad, P6_1, P6_2_1, P6_2_2, P6_2_3, P6_3, P7_1, P7_2)
             temp.create()  
 
             if (index + 1) % INSERT_LOOP_MAX == 0:
@@ -117,6 +135,7 @@ class Usuario:
             temp = Usuario(
                 id=row['id'],
                 edad=row['edad'],
+                P6_1=row['P6_1'],
                 P6_2_1=row['P6_2_1'],
                 P6_2_2=row['P6_2_2'],
                 P6_2_3=row['P6_2_3'],
@@ -135,9 +154,9 @@ class Usuario:
     def create(self, auto_commit: bool = False):
         cursor = self.connection.cursor()
         command = """
-        INSERT INTO Usuarios (edad, P6_2_1, P6_2_2, P6_2_3, P6_3, P7_1, P7_2)
-        VALUES(?, ?, ?, ?, ?, ?, ?)"""
-        cursor.execute(command, (self.edad, self.P6_2_1, self.P6_2_2, self.P6_2_3, self.P6_3, self.P7_1, self.P7_2))
+        INSERT INTO Usuarios (edad, P6_1, P6_2_1, P6_2_2, P6_2_3, P6_3, P7_1, P7_2)
+        VALUES(?, ?, ?, ?, ?, ?, ?, ?)"""
+        cursor.execute(command, (self.edad, self.P6_1, self.P6_2_1, self.P6_2_2, self.P6_2_3, self.P6_3, self.P7_1, self.P7_2))
   
         id = cursor.lastrowid
         self.id = id
