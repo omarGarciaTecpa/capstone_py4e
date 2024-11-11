@@ -92,7 +92,7 @@ class Usuario:
             temp.create()  
 
             if (index + 1) % INSERT_LOOP_MAX == 0:
-                print("Commited:", index + 1)
+                #print("Commited:", index + 1)
                 cls.connection.commit()
 
         cls.connection.commit() # final commit
