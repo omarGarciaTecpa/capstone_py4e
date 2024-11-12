@@ -29,6 +29,9 @@ These are additional resources I read while researching for this project.
     - https://stackoverflow.com/questions/6242756/how-to-retrieve-inserted-id-after-inserting-row-in-sqlite-using-python
 - Sqlite3 rows by name
     - https://docs.python.org/3/library/sqlite3.html#sqlite3-howto-row-factory
+- Type hints:
+    - https://mypy.readthedocs.io/en/stable/cheat_sheet_py3.html
+    - https://stackoverflow.com/questions/63503512/python-type-hinting-own-class-in-method
 
 [^1]: [Encuesta Nacional sobre Disponibilidad y Uso de Tecnologías de la Información en los Hogares (ENDUTIH) 2022](https://www.inegi.org.mx/programas/dutih/2022/)
 

@@ -1,5 +1,7 @@
 from settings import *
 
+
+
 class MetaUsuario:
     pass
 
@@ -10,20 +12,22 @@ class Usuario:
 
     Attributes:
         connection: Connection to the sqlite database [class attribute]
-        src_file: file handle for the source file [class attribute]
+        src_file: File handle for the source file [class attribute]
         id: id after insertion
-        edad: age of the surveyed person
-        P6_2_1: question: 
-        P6_2_2:
-        P6_2_3:
-        P6_3:
-        P7_1:
-        P7_2:
+        edad: Age of the surveyed person
+        P6_1: PC, laptop or tablet usage question   
+        P6_2_1: PC, laptop or tablet usage question 
+        P6_2_2: PC, laptop or tablet usage question
+        P6_2_3: PC, laptop or tablet usage question
+        P6_3: PC, laptop or tablet usage question
+        P7_1: Internet usage question
+        P7_2: Internet usage question
     """
     connection: sqlite3.Connection = None
     src_file: str = None
     
-    def __init__(self, edad: int ,P6_1,P6_2_1 : int,P6_2_2: int, P6_2_3: int, P6_3: int, P7_1: int,P7_2: int, id: int = -1):
+    def __init__(self, edad: int ,P6_1,P6_2_1 : int,P6_2_2: int, P6_2_3: int, 
+                 P6_3: int, P7_1: int,P7_2: int, id: int = -1):
         self.id = id
         self.edad   = edad
         self.P6_1 = P6_1
@@ -33,7 +37,7 @@ class Usuario:
         self.P6_3   = P6_3
         self.P7_1   = P7_1
         self.P7_2   = P7_2
-        pass
+        
 
     def __str__(self):
         msg = ""
@@ -49,19 +53,27 @@ class Usuario:
         msg += f"P7_2: {self.P7_2}\n"
         msg += "\n\n"
         return msg
-        pass
+        
 
     @classmethod
     def start(cls, connection, src_file):
+        """ Setups the class and must be called before any other method.
+
+        Args:
+            connection: Sqlite connection to the database
+            src_file: File handle to the source csv
+        """
         cls.connection = connection
         cls.validate_connection()    
         cls.drop_create_table()   
 
         cls.src_file = src_file
-        pass
+        
 
     @classmethod
     def validate_connection(cls):
+        """ Closes the app if the connection does not exist.
+        """
         if cls.connection is None:
             print("Connection is not ready. start() should be run before using the connection")
             quit()
@@ -69,6 +81,10 @@ class Usuario:
 
     @classmethod
     def drop_create_table(cls):
+        """ Erases the table from the database and then recreates it. 
+        """
+
+        cls.validate_connection()
         #create table
         cursor = cls.connection.cursor()
         cursor.execute("DROP TABLE IF EXISTS Usuarios")
@@ -86,11 +102,15 @@ class Usuario:
         )""")
         cls.commit(True)
         cursor.close()
-        pass
+        
     
 
     @classmethod
     def import_from_csv(cls):
+        """Reads the CSV source file and imports it into the database."""
+
+        cls.validate_connection()
+
         if cls.src_file is None:
             print("The data source file was not opened")
             quit()
@@ -107,30 +127,58 @@ class Usuario:
             P7_1 = cls.convert_int(row,'P7_1')  
             P7_2 = cls.convert_int(row,'P7_2')  
             temp = Usuario(edad, P6_1, P6_2_1, P6_2_2, P6_2_3, P6_3, P7_1, P7_2)
-            temp.create()  
+            temp.save()  
 
+            # commit only every X insertions, based on INSERT_LOOP_MAX
             if (index + 1) % INSERT_LOOP_MAX == 0:
-                #print("Commited:", index + 1)
+                print("Commited:", index + 1)
                 cls.connection.commit()
 
         cls.connection.commit() # final commit
-        pass
+        
 
     @classmethod
-    def convert_int(cls, row, column_name: str):
+    def convert_int(cls, row, column_name: str) -> int:
+        """Checks if the values is a number otherwise returns 0.
+        
+        Since many of the values in the survey are empty, we need to validate
+        whether the value will cause an error when convertint into an int.
+        
+        Args:
+            row: Row we are currently reading
+            column_name: Name of the column. Case Sensitive.
+
+        Returns:
+            The int version of the value
+        """
         return int(row[column_name]) if str.isnumeric(row[column_name]) else 0 
+
 
     @classmethod
     def commit(cls, auto_commit: bool = False):
+        """Will commit the connection based on auto commit.
+        
+        Args:
+            auto_commit: Whether the connection should commit. Default False
+        """
+        cls.validate_connection()
         if auto_commit:
             cls.connection.commit()
-        pass
+        
 
     @classmethod
-    def list(cls):
+    def list(cls) -> list['Usuario']: 
+        """Gets all the Usuarios from database.
+        
+        Returns:
+            A list of all the Usuarios
+        """
+        cls.validate_connection()
+
         cursor = cls.connection.cursor()
         cursor.execute("SELECT * from Usuarios")
         usuario_list = []
+
         for row in cursor.fetchall():
             temp = Usuario(
                 id=row['id'],
@@ -149,9 +197,21 @@ class Usuario:
 
         cursor.close()
         return usuario_list
-        pass
+      
 
-    def create(self, auto_commit: bool = False):
+    def save(self, auto_commit: bool = False):
+        """ Saves the current Ususario into the database. 
+        
+        WARNING: Does not include the update part!!!
+
+        Args:
+            auto_commit: If True commits the connection 
+        
+        Returns:
+            Returns the Id of the created Usuario
+        """
+        self.validate_connection()
+
         cursor = self.connection.cursor()
         command = """
         INSERT INTO Usuarios (edad, P6_1, P6_2_1, P6_2_2, P6_2_3, P6_3, P7_1, P7_2)
@@ -163,9 +223,5 @@ class Usuario:
         cursor.close()
         self.commit(auto_commit)
         return id 
-        pass
+        
 
-    
-    
-    
-    pass
