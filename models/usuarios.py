@@ -2,9 +2,67 @@ from settings import *
 
 
 
-class MetaUsuario:
-    pass
+class DataDictUsuario:
+    src_file = None
 
+    def __init__(self, columna, descripcion, tipo_dato, longitud, codigo_valido, metadatos):
+        self.columna = columna
+        self.descripcion = descripcion
+        self.tipo_dato = tipo_dato  
+        self.longitud = longitud   
+        self.codigo_valido = codigo_valido 
+        self.metadatos = metadatos
+
+        pass
+
+    def __str__(self):
+        msg = ""
+        msg += "**********************************************\n"        
+        msg += f"Columna: {self.columna}\n"
+        msg += f"Descripción: {self.descripcion}\n"
+        msg += f"Tipo de Dato: {self.tipo_dato}\n"
+        msg += f"Longitud: {self.longitud}\n"
+        msg += f"Código Válido: {self.codigo_valido}\n"
+        msg += f"Metadatos: {self.metadatos}\n"
+        msg += "\n\n"
+        return msg
+        pass
+
+    @classmethod
+    def start(cls, src_file):
+        """ Setups the class and must be called before any other method.
+
+        Args:
+            src_file: File handle to the source csv
+        """
+        cls.src_file = src_file
+
+    @classmethod
+    def import_from_csv(cls)-> dict[str, 'DataDictUsuario']:
+        if cls.src_file is None:
+            print("The data source file was not opened")
+            quit()
+
+        reader = csv.DictReader(cls.src_file)
+        datadict = {}
+        
+        for index, row in enumerate(reader):
+            columna = row['COLUMNA']
+            descripcion = row['DESCRIPCION']
+            tipo_dato = row['TIPO_DATO'] 
+            longitud = row['LONGITUD'] 
+            codigo_valido = row['CODIGO_VALIDO']
+            metadatos = row['METADATOS']
+
+            temp = DataDictUsuario(columna=columna, descripcion=descripcion, tipo_dato=tipo_dato, 
+                               longitud=longitud, codigo_valido=codigo_valido, metadatos=metadatos)
+
+            if datadict.get(columna) is not None:
+                print("there is a reapeated column in the dictionary")
+                quit()
+            
+            datadict[columna] = temp
+        return datadict
 
 
 class Usuario:
@@ -24,7 +82,7 @@ class Usuario:
         P7_2: Internet usage question
     """
     connection: sqlite3.Connection = None
-    src_file: str = None
+    src_file = None
     
     def __init__(self, edad: int ,P6_1,P6_2_1 : int,P6_2_2: int, P6_2_3: int, 
                  P6_3: int, P7_1: int,P7_2: int, id: int = -1):

@@ -1,5 +1,5 @@
 from settings import *
-from models.usuarios import Usuario, MetaUsuario
+from models.usuarios import Usuario, DataDictUsuario
 
 class DataImporter:   
     """Imports and cleans data from the datasources
@@ -9,26 +9,35 @@ class DataImporter:
     """
     def __init__(self,  db_connection: sqlite3.Connection):
         self.connection = db_connection
-        self.meta_usuario_dict = None
+        self.usuario_datadict = None
         self.usuario_list = None
         pass
     pass
 
 
-    def import_meta_usuario(self):        
-        """Create Dictionary with MetaUsuario
+    def import_datadict_usuario(self):        
+        """Create the DataDictUsuario
         """
+        try:
+            src_file = open(DATA_DICT['usuario'], encoding='utf-8-sig')
+        except:
+            print(f"Couldn't open the file for Usuario datasource")
+            quit()
+        DataDictUsuario.start(src_file)
+        self.usuario_datadict = DataDictUsuario.import_from_csv()
 
+        # for item in self.usuario_datadict.values(): print(item)
+        
+        src_file.close()
         pass
 
     def import_usuarios(self):
-        """Add Usuarios to the database
-        """
+        """Add Usuarios to the database."""
 
         try:
             src_file = open(DATA_SOURCES['usuario'], encoding="utf-8")
         except:
-            print(f"Couldn´t open the file for Usuario datasource")
+            print(f"Couldn't open the file for Usuario datasource")
             quit()
 
         Usuario.start(self.connection, src_file)
@@ -37,10 +46,11 @@ class DataImporter:
         pass
 
     def import_all(self):
-        #import Meta of Usuarios and Usuarios
-        self.import_meta_usuario()
+        """Import All data into the database or dictionaries"""
+        #import Data Dictionary of Usuarios and Usuarios
+        self.import_datadict_usuario()
         self.import_usuarios()
-        pass
+    
 
 
 # MAIN APP LOOP -------------------------------------------------------

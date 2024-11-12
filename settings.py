@@ -4,7 +4,7 @@ import csv
 
 INSERT_LOOP_MAX = 1000
 
-DATA_META = {
+DATA_DICT = {
     "usuario": join("datasources", "diccionario_de_datos", "diccionario_de_datos_tr_endutih_usuarios_anual_2022.csv")
 }
 
