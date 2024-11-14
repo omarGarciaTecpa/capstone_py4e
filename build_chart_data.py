@@ -49,16 +49,8 @@ class DataBuilder:
         
         r_yes = [item for item in list if item.P6_1 == 1]   
 
-        truthy = [
-            (1,1,1),
-            (1,1,2),
-            (1,2,1),
-            (1,2,2),
-            (2,1,1),
-            (2,1,2),
-            (2,2,1),
-            (2,2,2)] 
 
+        truthy = [(1,1,1),(1,1,2),(1,2,1),(1,2,2),(2,1,1),(2,1,2),(2,2,1),(2,2,2)] 
         children6_2 = []
         for row in truthy:
             children6_2.append(self.get_p6_2_dict(row,list, data_dict))
