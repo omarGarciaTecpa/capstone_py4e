@@ -16,10 +16,14 @@ class DataBuilder:
 
 
     def build_file(self, dict):
-        'Builds the json file that feeds the visualization'
+        '''Builds the json file that feeds the visualization.
+        
+        It gets the path of the file from CHART_FILES['main']
+        present in setting.py
+        '''
         file_w = open(CHART_FILES['main'], 'w', encoding='utf8') 
         file_dict = {
-            "name": "flare", 
+            "name": "Usage of computing devices in households in Mexico (2022)", 
             "children": [
                 dict
             ]
@@ -68,6 +72,8 @@ class DataBuilder:
         
         return result
     
+
+    
     def get_p6_2_dict(self, truthy_row, list, data_dict: dict['DataDictUsuario']):
         '''
         Build the dictionary to answer the P6_2_1 question:
@@ -109,42 +115,8 @@ class DataBuilder:
 
         return {"name": label, "value": len(res)}
 
-        
-        #print(dict_items)
-    
-    # def get_p6_2_dict(self, index, list, data_dict: dict['DataDictUsuario']):
-    #     '''
-    #     Build the dictionary to answer the P6_2_1 question:
-
-    #     The questions to answer read as follows:
-    #         - "6.2.1 ¿Usted usa… computadora de escritorio?"
-    #         - "6.2.2 ¿Usted usa… computadora portátil (laptop, notebook)?"
-    #         - "6.2 ¿Usted usa… tablet?"
-
-    #     These answers only apply to those who answered "Yes/Si" at question P6_1
-            
-    #     Args:
-    #         list: the list of all the usuarios who said "Yes"
-    #         data_dict: the data dictionary for usuario
-        
-    #     Returns: 
-    #         A dict contanining the answer's data and related answers
-    #     '''
-    #     dict_item = data_dict[f'P6_2_{index}'] 
-    #     title = dict_item.descripcion
-        
-    #     children = []
-        
-    #     r_yes = [item for item in list if getattr(item, f"P6_2_{index}") == 1]
-    #     r_no = [item for item in list if getattr(item, f"P6_2_{index}") == 2]
-
-    #     children.append({"name":'Si', "value": len(r_yes)})
-    #     children.append({"name":'No', "value": len(r_no)})
-
-    #     print(f"{title}: yes = {len(r_yes)}, no = {len(r_no)}")
-
-    #     return {"name": title, "children": children}
-    #     pass
+  
+ 
 
 
     def get_p6_3_dict(self, list, data_dict: dict['DataDictUsuario']):

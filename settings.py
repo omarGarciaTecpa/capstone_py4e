@@ -19,6 +19,6 @@ DATA_BASES = {
 }
 
 CHART_FILES = {
-    'main': join('visualization','data.json')
+    'main': join('data.json')
 }
 

@@ -5,10 +5,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 
 <body>
-    <div id="container"></div>
+    <div class="container-fluid">
+        <h1>Capstone Project</h1>
+        <h2>
+            "Retrieving, Processing, and Visualizing Data with Python"
+            <small class="text-body-secondary"> at Coursera</small>
+        </h2>
+
+        <hr>
+        
+        <h3> Data Source explained</h3>
+        <p>
+            The data used for this analysis was retrieved from the <b><a
+                    href="https://www.inegi.org.mx/programas/dutih/2022/">"National Survey on Availability and Use of
+                    Information Technologies in Homes
+                    (ENDUTIH) 2022"</a></b> which was made available by the <b><a
+                    href="https://www.inegi.org.mx/default.html">National Institute of Statistics and
+                    Geography(INEGI)</b></a> from Mexico.
+        </p>
+
+
+        <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+            <h3> Data Visualization</h3>
+            <p>This data visualization was made using the <a
+                    href="https://observablehq.com/@d3/zoomable-icicle">Zoomable
+                    Icicle Dagram</a>
+                from the library <a href="https://d3js.org/">D3js</a>.
+            </p>
+            <div id="container"></div>
+        </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
     <script type="module">
         import data from './data.json' with { type: 'json' };;

@@ -8,12 +8,13 @@ class DataDictUsuario:
 
     Attributes:
         src_file: file handle of the source csv file
-        columna: 
-        descripcion: 
-        tipo_dato:   
-        longitud:  
-        codigo_valido:
-        metadatos: 
+        columna: Column name
+        descripcion: Full text of the questio
+        tipo_dato: Datatype of the answer of the question
+        longitud:  Length of the answer
+        codigo_valido: Valid answer code. Usually a number
+        metadatos: Description of the answers. Depending on the question,
+            could be turned into array
     """
     src_file = None
 
@@ -25,7 +26,6 @@ class DataDictUsuario:
         self.codigo_valido: str = codigo_valido 
         self.metadatos: list[str] = metadatos
 
-        pass
 
     def __str__(self):
         msg = ""
@@ -49,8 +49,17 @@ class DataDictUsuario:
         """
         cls.src_file = src_file
 
+
     @classmethod
     def import_from_csv(cls)-> dict[str, 'DataDictUsuario']:
+        """ Reads the src_file and returns the Data Dictionary 
+        for the user.
+
+        Returns:
+            A dictionary containing a key and a DataDictUsuario
+            with info about Usuarios
+        
+        """
         if cls.src_file is None:
             print("The data source file was not opened")
             quit()
