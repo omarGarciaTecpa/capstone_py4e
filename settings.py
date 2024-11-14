@@ -18,3 +18,7 @@ DATA_BASES = {
     "content": join("databases", 'content.sqlite')
 }
 
+CHART_FILES = {
+    'main': join('visualization','data.json')
+}
+

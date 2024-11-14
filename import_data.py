@@ -26,8 +26,9 @@ class DataImporter:
         DataDictUsuario.start(src_file)
         self.usuario_datadict = DataDictUsuario.import_from_csv()
 
-        # for item in self.usuario_datadict.values(): print(item)
+        #for item in self.usuario_datadict.values(): print(item)
         
+        print(f"Usuario Data Dictionary: {len(self.usuario_datadict.keys())}")
         src_file.close()
         pass
 
@@ -42,14 +43,16 @@ class DataImporter:
 
         Usuario.start(self.connection, src_file)
         Usuario.import_from_csv()
+        print(f"Imported {Usuario.count()} Usuario(s) in total.")
         src_file.close()
         pass
 
     def import_all(self):
         """Import All data into the database or dictionaries"""
-        #import Data Dictionary of Usuarios and Usuarios
-        self.import_datadict_usuario()
+        #import Data Dictionary of Usuarios and Usuarios        
         self.import_usuarios()
+        
+        self.import_datadict_usuario()
     
 
 
@@ -60,8 +63,6 @@ try:
 except:
     print("Could not connect to database. Quitting app")
     quit()
-
-
 
 importer = DataImporter(conn)
 importer.import_all()

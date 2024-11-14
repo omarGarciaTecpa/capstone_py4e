@@ -8,7 +8,7 @@ P6_1,"6.1 En los últimos tres meses, ¿utilizó computadora, laptop o tablet en
 P6_2_1,6.2 ¿Usted usa… computadora de escritorio?,Varchar,1,[1-2],"1 Sí, 2 No"
 P6_2_2,"6.2 ¿Usted usa… computadora portátil (laptop, notebook)?",Varchar,1,[1-2],"1 Sí, 2 No"
 P6_2_3,6.2 ¿Usted usa… tablet?,Varchar,1,[1-2],"1 Sí, 2 No"
-P6_3,"6.3 ¿Por qué no utiliza computadora, laptop o tablet?",Varchar,1,[1-8],"1 No tiene acceso a una aunque sabe utilizarla, 2 No sabe utilizarla, 3 No le interesa o no la necesita, 4 Por falta de recursos económicos, 5 Usa su teléfono celular inteligente (Smartphone), 6 Desconoce su utilidad, 7 Por discapacidad física o mental, 8 Otra razón"
+P6_3,"6.3 ¿Por qué no utiliza computadora, laptop o tablet?",Varchar,1,[1-8],"1 No tiene acceso a una, aunque sabe utilizarla, 2 No sabe utilizarla, 3 No le interesa o no la necesita, 4 Por falta de recursos económicos, 5 Usa su teléfono celular inteligente (Smartphone), 6 Desconoce su utilidad, 7 Por discapacidad física o mental, 8 Otra razón"
 P6_3A,"6.3 ¿Por qué no utiliza computadora, laptop o tablet? Especifique",Varchar,100,[A-Z], 
 P6_4,"6.4 Generalmente, ¿cuántos días a la semana usa la computadora, laptop o tablet?",Varchar,1,[1-5],"1 Diario (7 días a la semana), 2 Al menos una vez a la semana, 3 Al menos una vez al mes, 4 Al menos una vez cada tres meses, 5 Con otra frecuencia menor"
 P6_5,"6.5 ¿Cuántas horas al día usa la computadora, laptop o tablet? (cuando la utiliza)",Varchar,2,[01-12],"01 Una hora o menos, 12 Doce horas o más"

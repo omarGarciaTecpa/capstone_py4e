@@ -3,15 +3,27 @@ from settings import *
 
 
 class DataDictUsuario:
+    """
+    Data dictionary item for the Usuarios
+
+    Attributes:
+        src_file: file handle of the source csv file
+        columna: 
+        descripcion: 
+        tipo_dato:   
+        longitud:  
+        codigo_valido:
+        metadatos: 
+    """
     src_file = None
 
-    def __init__(self, columna, descripcion, tipo_dato, longitud, codigo_valido, metadatos):
-        self.columna = columna
-        self.descripcion = descripcion
-        self.tipo_dato = tipo_dato  
-        self.longitud = longitud   
-        self.codigo_valido = codigo_valido 
-        self.metadatos = metadatos
+    def __init__(self, columna: str, descripcion: str, tipo_dato: str, longitud: int, codigo_valido: str, metadatos: str):
+        self.columna: str = columna
+        self.descripcion: str = descripcion
+        self.tipo_dato: str = tipo_dato  
+        self.longitud: int = longitud   
+        self.codigo_valido: str = codigo_valido 
+        self.metadatos: list[str] = metadatos
 
         pass
 
@@ -50,9 +62,18 @@ class DataDictUsuario:
             columna = row['COLUMNA']
             descripcion = row['DESCRIPCION']
             tipo_dato = row['TIPO_DATO'] 
-            longitud = row['LONGITUD'] 
+            longitud = int(row['LONGITUD']) if str.isnumeric(row['LONGITUD']) else 0  
             codigo_valido = row['CODIGO_VALIDO']
-            metadatos = row['METADATOS']
+            
+            
+            meta_items = row['METADATOS'].strip()
+            meta_items = meta_items.split(',')
+            clean_meta = []
+
+            for item in meta_items:
+                clean_meta.append(str(item).strip())
+
+            metadatos =  clean_meta
 
             temp = DataDictUsuario(columna=columna, descripcion=descripcion, tipo_dato=tipo_dato, 
                                longitud=longitud, codigo_valido=codigo_valido, metadatos=metadatos)
@@ -64,6 +85,9 @@ class DataDictUsuario:
             datadict[columna] = temp
         return datadict
 
+
+
+# USUARIO CLASS --------------------------------------------- 
 
 class Usuario:
     """ Representation of Usuarios from the survey.
@@ -86,15 +110,15 @@ class Usuario:
     
     def __init__(self, edad: int ,P6_1,P6_2_1 : int,P6_2_2: int, P6_2_3: int, 
                  P6_3: int, P7_1: int,P7_2: int, id: int = -1):
-        self.id = id
-        self.edad   = edad
-        self.P6_1 = P6_1
-        self.P6_2_1 = P6_2_1
-        self.P6_2_2 = P6_2_2
-        self.P6_2_3 = P6_2_3
-        self.P6_3   = P6_3
-        self.P7_1   = P7_1
-        self.P7_2   = P7_2
+        self.id: int = id
+        self.edad: int = edad
+        self.P6_1: int = P6_1
+        self.P6_2_1: int = P6_2_1
+        self.P6_2_2: int = P6_2_2
+        self.P6_2_3: int = P6_2_3
+        self.P6_3: int   = P6_3
+        self.P7_1: int   = P7_1
+        self.P7_2: int   = P7_2
         
 
     def __str__(self):
@@ -122,11 +146,10 @@ class Usuario:
             src_file: File handle to the source csv
         """
         cls.connection = connection
-        cls.validate_connection()    
-        cls.drop_create_table()   
-
+        cls.validate_connection()          
         cls.src_file = src_file
         
+
 
     @classmethod
     def validate_connection(cls):
@@ -135,6 +158,7 @@ class Usuario:
         if cls.connection is None:
             print("Connection is not ready. start() should be run before using the connection")
             quit()
+
 
 
     @classmethod
@@ -168,6 +192,8 @@ class Usuario:
         """Reads the CSV source file and imports it into the database."""
 
         cls.validate_connection()
+
+        cls.drop_create_table() 
 
         if cls.src_file is None:
             print("The data source file was not opened")
@@ -256,6 +282,25 @@ class Usuario:
         cursor.close()
         return usuario_list
       
+    @classmethod
+    def count(cls) -> int:
+        """Gets the Usuarios count from database.
+        
+        Returns:
+            Total Usuarios in the database
+        """
+        cls.validate_connection()
+
+        cursor = cls.connection.cursor()
+        cursor.execute("SELECT COUNT (*) FROM USUARIOS")
+        try:
+            count = cursor.fetchone()[0]
+        except:
+            print("Couldn't get the usuario count")
+            quit()
+        cursor.close()
+        return count
+        pass
 
     def save(self, auto_commit: bool = False):
         """ Saves the current Ususario into the database. 
